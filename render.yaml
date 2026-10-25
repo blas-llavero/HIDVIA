@@ -16,5 +16,5 @@ services:
       - key: HIDVIA_EXPOSE_DEMO
         value: I_ACKNOWLEDGE_PUBLIC_FAKE_DATA_ONLY
       - key: HIDVIA_DEMO_PASSWORD
-        generateValue: true
+        sync: false
 # Ephemeral SQLite data resets on restarts; no production persistence or PHI.
