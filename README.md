@@ -203,3 +203,7 @@ This section is intentionally placed **after** the download, installation, use, 
 7. Do not issue a release-signed APK or publish in an app store until name clearance, clinical scope, privacy and security controls, device QA and applicable regulatory requirements have been satisfied.
 
 **License:** [MIT](LICENSE) — see attribution and partner IP limitations above.
+
+## Launch the fictional-data web demo in your browser
+
+**[Deploy HIDVIA Web to Render](https://render.com/deploy?repo=https://github.com/blas-llavero/HIDVIA)**. Authorize Render to access this public GitHub repository, review the free-tier/pricing choices, and enter a private `HIDVIA_DEMO_PASSWORD` when prompted. After the Blueprint deploy reports Live, open the Render-assigned HTTPS URL ending in `/patient` (patient demo) or `/clinician` (clinician demo). Use `patient@hidvia.test` or `clinician@hidvia.test` and the demo password you set. Do not use actual patient data. This deployment is ephemeral and may lose its test data after restart. The competition's six-month IHS4 model is NOT part of these interactive symptom demo scores.
