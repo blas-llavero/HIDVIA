@@ -181,6 +181,47 @@ class Handler(BaseHTTPRequestHandler):
         try:
             path,qs=self.path_and_query()
             if path=='/api/health':return self.respond(200,{'ok':True,'mode':'research demo','brand':'HIDVIA'})
+            if path == '/api/intro-status':
+                return self.respond(200, {'available': (WEB / 'intro.mp4').is_file()})
+            if path == '/intro.mp4':
+                movie = WEB / 'intro.mp4'
+                if not movie.is_file():
+                    return self.respond(404, {'error': 'Video is not uploaded yet'})
+                total = movie.stat().st_size
+                start, end, partial = 0, total - 1, False
+                requested = self.headers.get('Range', '')
+                if requested:
+                    m = re.fullmatch(r'bytes=(\d*)-(\d*)', requested)
+                    if m and (m.group(1) or m.group(2)):
+                        if m.group(1):
+                            start = int(m.group(1))
+                            if m.group(2): end = min(total - 1, int(m.group(2)))
+                        else:
+                            start = max(0, total - int(m.group(2)))
+                        if start >= total or end < start:
+                            self.send_response(416)
+                            self.send_header('Content-Range', f'bytes */{total}')
+                            self.send_header('Content-Length', '0')
+                            self.end_headers()
+                            return
+                        partial = True
+                self.send_response(206 if partial else 200)
+                self.send_header('Content-Type', 'video/mp4')
+                self.send_header('Content-Length', str(end - start + 1))
+                self.send_header('Accept-Ranges', 'bytes')
+                if partial: self.send_header('Content-Range', f'bytes {start}-{end}/{total}')
+                self.send_header('Cache-Control', 'public, max-age=3600')
+                self.send_header('X-Content-Type-Options', 'nosniff')
+                self.end_headers()
+                with movie.open('rb') as media:
+                    media.seek(start)
+                    remaining = end - start + 1
+                    while remaining:
+                        part = media.read(min(262144, remaining))
+                        if not part: break
+                        self.wfile.write(part)
+                        remaining -= len(part)
+                return
             if path.startswith('/api/'):
                 actor=self.require()
                 with conn() as db:
