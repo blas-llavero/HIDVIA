@@ -207,3 +207,15 @@ This section is intentionally placed **after** the download, installation, use, 
 ## Launch the fictional-data web demo in your browser
 
 **[Deploy HIDVIA Web to Render](https://render.com/deploy?repo=https://github.com/blas-llavero/HIDVIA)**. Authorize Render to access this public GitHub repository, review the free-tier/pricing choices, and enter a private `HIDVIA_DEMO_PASSWORD` when prompted. After the Blueprint deploy reports Live, open the Render-assigned HTTPS URL ending in `/patient` (patient demo) or `/clinician` (clinician demo). Use `patient@hidvia.test` or `clinician@hidvia.test` and the demo password you set. Do not use actual patient data. This deployment is ephemeral and may lose its test data after restart. The competition's six-month IHS4 model is NOT part of these interactive symptom demo scores.
+
+## HIDVIA introductory video — installation and playback
+
+The patient browser app, clinician browser app and Android WebView include a **startup video and replay button**. The video is **not automatically bundled into GitHub from chat downloads**: download `HIDVIA_Intro_Explainer_EN.mp4` from the team's conversation and upload the **same binary file**, renamed to `intro.mp4`, to both:
+
+- `web/intro.mp4` — required for the Render web demo, served at `/intro.mp4`
+- `android/app/src/main/assets/intro.mp4` — required for the offline Android APK (rerun GitHub Actions after committing)
+
+The application checks whether the video is present and only displays the onboarding modal and the persistent **Watch video** control when playback is possible. Startup preview is muted to comply with browser autoplay rules; viewers can enable sound, close or replay at any time. The video contains English narration and explanatory on-screen text. Navigation and clinical-diary features remain available if the video is omitted.
+
+The video is a **concept illustration**. The RNA sensor is not a marketed/validated diagnostic device, and the smartphone symptom score is not a clinically validated probability of HS onset or future flares. Request trademark/logo permissions before public marketing; the generated illustrations are not a partner endorsement.
+
