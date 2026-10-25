@@ -1,0 +1,20 @@
+# Render Blueprint: public demonstration with FAKE data only.
+# Deployment requires linking GitHub to a Render account; this file does not deploy itself.
+services:
+  - type: web
+    name: hidvia-research-demo
+    runtime: python
+    plan: free
+    buildCommand: "echo 'Standard-library backend: no build dependencies'"
+    startCommand: "python3 server/app.py"
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.10
+      - key: HIDVIA_HOST
+        value: 0.0.0.0
+      - key: HIDVIA_EXPOSE_DEMO
+        value: I_ACKNOWLEDGE_PUBLIC_FAKE_DATA_ONLY
+      - key: HIDVIA_DEMO_PASSWORD
+        generateValue: true
+# Ephemeral SQLite data resets on restarts; no production persistence or PHI.

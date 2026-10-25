@@ -1,0 +1,10 @@
+{
+  "schema": "hidvia-rna-v1",
+  "sample_id": "SYNTHETIC_SAMPLE_001",
+  "sampled_at": "2026-10-25T08:00:00+01:00",
+  "source": "file",
+  "device_id": "SIMULATOR_001",
+  "units": "normalized_expression",
+  "qc_pass": true,
+  "markers": {"SYNTHETIC_MARKER_A": 0.32, "SYNTHETIC_MARKER_B": 0.87}
+}
