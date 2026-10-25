@@ -57,6 +57,15 @@ def seed():
         ''')
         if 'sensor_json' not in [r['name'] for r in db.execute('PRAGMA table_info(checkins)')]:
             db.execute('ALTER TABLE checkins ADD COLUMN sensor_json TEXT')
+        # The demo password is administered by Render, not by the browser's prefill.
+        # Reconcile seeded fictional accounts when the environment secret is rotated.
+        configured_demo_password = os.environ.get('HIDVIA_DEMO_PASSWORD')
+        if configured_demo_password:
+            for email in ('patient@hidvia.test', 'clinician@hidvia.test'):
+                row = db.execute('SELECT secret FROM users WHERE email=?', (email,)).fetchone()
+                if row and not verify_password(configured_demo_password, row['secret']):
+                    db.execute('UPDATE users SET secret=? WHERE email=?',
+                               (password_hash(configured_demo_password), email))
         if not db.execute('SELECT id FROM users LIMIT 1').fetchone():
             pwd = os.environ.get('HIDVIA_DEMO_PASSWORD', 'demo-pass-123')
             db.execute('INSERT INTO users (id,email,secret,role,patient_id,name) VALUES (1,?,?,?,?,?)', ('patient@hidvia.test',password_hash(pwd),'patient',1,'Demo Patient'))
