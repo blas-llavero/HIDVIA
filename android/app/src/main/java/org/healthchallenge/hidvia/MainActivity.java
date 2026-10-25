@@ -262,7 +262,7 @@ public final class MainActivity extends Activity implements SensorEventListener 
                 json.put("researchOnly",true);json.put("stepsCounterIsSinceBoot",true);
                 json.put("permissionHint","Activity Recognition and Body Sensors are optional Android permissions; unavailable signals are omitted.");
             }catch(Exception ignored){}
-            return json.toString(2);
+            return json.toString();
         }
         @JavascriptInterface public void openClinic(String raw){
             runOnUiThread(()->{
